@@ -38,7 +38,7 @@ var ocrDemo = {
 	// event
 	canvas.onmousemove = function(e){this.onMouseMove(e, ctx, canvas)}.bind(this);
 	canvas.onmousedown = function(e){this.onMouseDown(e, ctx, canvas)}.bind(this);
-	canvas.onmouseup = function(e){this.onMouseup(e, ctx, canvas)}.bind(this);
+	canvas.onmouseup = function(e){this.onMouseUp(e, ctx)}.bind(this);
     },
 
     drawGrid: function(ctx)
@@ -53,7 +53,7 @@ var ocrDemo = {
 	    ctx.beginPath();
 	    ctx.moveTo(0, y);
 	    ctx.lineTo(this.CANVAS_WIDTH, y);
-	    ctx.strokeTo();
+	    ctx.stroke();
 	}
     },
     
