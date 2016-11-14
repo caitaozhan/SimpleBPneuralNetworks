@@ -21,7 +21,7 @@ class OCRNeuralNetwork:
 	# 初始化
 	def __init__(self, num_hidden_nodes, data_matrix, data_labels, training_indices, use_file = True):
 		self.sigmoid = np.vectorize(self._sigmoid_scalar)               # sigmoid函数
-		self.sigmod_prime = np.vectorize(self._sigmoid_prime_scalar)    # sigmoid求导函数
+		self.sigmoid_prime = np.vectorize(self._sigmoid_prime_scalar)    # sigmoid求导函数
 		self._use_file = use_file                                       # 决定要不要导入nn.json
 		self.data_matrix = data_matrix
 		self.data_labels = data_labels
@@ -49,13 +49,13 @@ class OCRNeuralNetwork:
 
 	# sigmod的导数
 	def _sigmoid_prime_scalar(self, z):
-		return self.sigmoid(z) * (1 - self.sigmoid(x))
+		return self.sigmoid(z) * (1 - self.sigmoid(z))
 	
 	# 训练
 	def train(self, training_data_array):
 		for data in training_data_array:
 			# 向前传播
-			y1 = np.dot(np.mat(self.theta1), np.mat(data['y0']).T)
+			y1 = np.dot(np.mat(self.theta1), np.mat(data.y0).T)
 			sum1 = y1 + np.mat(self.input_layer_bias)
 			y1 = self.sigmoid(sum1)
 			y2 = np.dot(np.mat(self.theta2), y1)
@@ -63,17 +63,17 @@ class OCRNeuralNetwork:
 			y2 = self.sigmoid(y2)
 			# 误差反向传播
 			actual_vals = [0] * 10
-			actual_vals[data['label']] = 1
+			actual_vals[data.label] = 1
 			output_errors = np.mat(actual_vals).T - np.mat(y2)
 			hidden_errors = np.multiply(np.dot(np.mat(self.theta2).T, output_errors), self.sigmoid_prime(sum1))
 			# 更新权重矩阵与偏执向量
-			self.theta1 += self.LEARNING_RATE * np.dot(np.mat(hidden_errors), np.mat(data['y0']))
+			self.theta1 += self.LEARNING_RATE * np.dot(np.mat(hidden_errors), np.mat(data.y0))
 			self.theta2 += self.LEARNING_RATE * np.dot(np.mat(output_errors), np.mat(y1).T)
 			self.hidden_layer_bias += self.LEARNING_RATE * output_errors
 			self.input_layer_bias += self.LEARNING_RATE * hidden_errors
 
 	def predict(self, test):
-		y1 = np.dot(np.mat(self.theta1), mp.mat(test).T)
+		y1 = np.dot(np.mat(self.theta1), np.mat(test).T)
 		y1 = y1 + np.mat(self.input_layer_bias)
 		y1 = self.sigmoid(y1)
 		y2 = np.dot(np.array(self.theta2), y1)
