@@ -5,7 +5,7 @@ from sklearn.cross_validation import train_test_split
 
 def test(data_matrix, data_labels, test_indices, nn):
 	correct_guess_count = 0
-	for in test_indices:
+	for i in test_indices:
 		test = data_matrix[i]
 		prediction = nn.predict(test)
 		if data_labels[i] == prediction:
@@ -25,4 +25,4 @@ print("-----------")
 for i in xrange(5, 50, 5):
 	nn = OCRNeuralNetwork(i, data_matrix, data_labels, train_indices, False)
 	performance = str(test(data_matrix, data_labels, test_indices, nn))
-	print("{i} Hidden Nodes: {val}".format(i=i, val=performance)
+	print("{i} Hidden Nodes: {val}".format(i=i, val=performance))

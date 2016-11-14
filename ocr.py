@@ -1,3 +1,6 @@
+# coding: utf-8
+# neral_network_design.py
+
 import csv
 import numpy as np
 from numpy import matrix
@@ -30,14 +33,15 @@ class OCRNeuralNetwork:
 			self.hidden_layer_bias = self._rand_initialize_weights(1, 10)			
 			# 训练并保存
 			TrainData = namedtuple('TrainData', ['y0', 'label'])
-			self.train([TrainData(self.data_matrix[i], int(self.data_labels[i])) for i in training_indices)
+			self.train([TrainData(self.data_matrix[i], int(self.data_labels[i])) for i in training_indices])
 			self.save()
 		else:
 			self._load()
 			
 	# 初始化随机矩阵
 	def _rand_initialize_weights(self, size_in, size_out):
-		return [(x * 0.12) - 0.06) for x in np.random.rand(size_out, size_in)]
+		return [((x * 0.12) - 0.06) for x in np.random.rand(size_out, size_in)]
+		
 
 	# sigmoid 激发函数
 	def _sigmoid_scalar(self, z):
