@@ -4,14 +4,15 @@ from ocr import OCRNeuralNetwork
 import numpy as np
 import random
 
-HOST_NAME = 8000
+HOST_NAME = 'localhost'
+PORT_NUMBER = 8000
 HIDDEN_NODE_COUNT = 15
 
 data_matrix = np.loadtxt(open('data.csv', 'rb'), delimiter = ',')
 data_labels = np.loadtxt(open('dataLabels.csv', 'rb'))
 
 data_matrix = data_matrix.tolist()
-data_labels = data_labesl.tolist()
+data_labels = data_labels.tolist()
 
 train_indice = range(5000)
 
@@ -32,7 +33,7 @@ class JSONHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 	    nn.save()
 	elif payload.get('predict'):
 	    try:
-		print(nn.predict(data_matrix[0])
+		print(nn.predict(data_matrix[0]))
 		response = {"type":"test", "result":str(nn.predict(payload['image']))}
 	    except:
 		response_code = 500
@@ -48,7 +49,7 @@ class JSONHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 	return
 
 
-if __name__='__main__':
+if __name__=='__main__':
     server_class = BaseHTTPServer.HTTPServer
     httpd = server_class((HOST_NAME, PORT_NUMBER), JSONHandler)
 
