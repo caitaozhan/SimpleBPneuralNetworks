@@ -24,7 +24,7 @@ class JSONHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_POST(self):
 	response_code = 200
 	response = ""
-	var_len = int(self.header.get('Content-Length'))
+	var_len = int(self.headers.get('Content-Length'))
 	content = self.rfile.read(var_len)
 	payload = json.loads(content)
 
@@ -54,7 +54,7 @@ if __name__=='__main__':
     httpd = server_class((HOST_NAME, PORT_NUMBER), JSONHandler)
 
     try:
-	httpd.server_forever()
+	httpd.serve_forever()
     except KeyboardInterrupt:
 	pass
     else:
